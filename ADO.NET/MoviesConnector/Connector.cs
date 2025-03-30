@@ -13,12 +13,12 @@ namespace MoviesConnector
 		static readonly int PADDING = 33;
 		readonly string CONNECTION_STRING;
 		readonly SqlConnection connection;
-		public Connector():this(ConfigurationManager.ConnectionStrings["Movies_VPD_311"].ConnectionString)
-		{
-			//CONNECTION_STRING =
-			//	ConfigurationManager.ConnectionStrings["Movies_VPD_311"].ConnectionString;
-			//this.connection = new SqlConnection(CONNECTION_STRING);
-		}
+		//public Connector():this(ConfigurationManager.ConnectionStrings["Movies_VPD_311"].ConnectionString)
+		//{
+		//	//CONNECTION_STRING =
+		//	//	ConfigurationManager.ConnectionStrings["Movies_VPD_311"].ConnectionString;
+		//	//this.connection = new SqlConnection(CONNECTION_STRING);
+		//}
 		public Connector(string connection_string)
 		{
 			this.CONNECTION_STRING = connection_string;
