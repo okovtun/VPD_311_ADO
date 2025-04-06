@@ -51,8 +51,11 @@ namespace Academy
 				"Количество преподавателей: ",
 			};
 		/// //////////////////////////////////////////////////////
+		//TODO: Apply encapsulation:
 		public Dictionary<string, int> d_directions;
 		public Dictionary<string, int> d_groups;
+		//public Dictionary<string, int> d_groups{get; private set;};
+		/// //////////////////////////////////////////////////////
 		public MainForm()
 		{
 			InitializeComponent();

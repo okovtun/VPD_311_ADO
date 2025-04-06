@@ -1,0 +1,1 @@
+﻿SELECT * FROM Students JOIN Groups ON([group]=group_id) JOIN Directions ON (direction=direction_id) WHERE  group = 3
