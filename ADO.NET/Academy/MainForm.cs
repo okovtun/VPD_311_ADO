@@ -100,14 +100,17 @@ namespace Academy
 			Console.WriteLine(query.Condition);
 			string tab_name = (sender as ComboBox).Name;
 			string field_name = tab_name.Substring(Array.FindLastIndex<char>(tab_name.ToCharArray(), Char.IsUpper));
+			//https://stackoverflow.com/questions/32736514/find-last-substring-starting-with-uppercase-letter
 			Console.WriteLine(field_name);
 			string member_name = $"d_{field_name.ToLower()}s";
 			Console.WriteLine(member_name == nameof(d_directions));
 			Dictionary<string, int> source = this.GetType().GetField(member_name).GetValue(this) as Dictionary<string,int>;
+			//https://stackoverflow.com/questions/11122241/accessing-a-variable-using-a-string-containing-the-variables-name
 			//Console.WriteLine(this.GetType().GetField(member_name).GetValue(this));
 			//Console.WriteLine(this.GetType());
-			if(query.Condition != "")query.Condition += " AND";
+			if (query.Condition != "")query.Condition += " AND";
 			query.Condition += $" [{field_name.ToLower()}] = {source[(sender as ComboBox).SelectedItem.ToString()]}";
+			//https://stackoverflow.com/questions/11122241/accessing-a-variable-using-a-string-containing-the-variables-name
 			LoadTab(query);
 			Console.WriteLine((sender as ComboBox).Name);
 			Console.WriteLine(e);
