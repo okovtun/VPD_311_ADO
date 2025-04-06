@@ -1,4 +1,5 @@
 ﻿https://github.com/okovtun/VPD_311_ADO.git
+https://www.youtube.com/playlist?list=PLeqyOOqxeiIN_MsTkQf08IT0uxxro2C9Z
 
 TODO:
 1. Для каждого направления отобразить количество групп и студентов;
