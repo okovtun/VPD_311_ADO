@@ -18,7 +18,7 @@ namespace Academy
 
 		Query[] queries = new Query[]
 			{
-				new Query("*", "Students"),
+				new Query("*", "Students JOIN Groups ON([group]=group_id) JOIN Directions ON (direction=direction_id)"),
 				new Query
 				(
 					"group_id,group_name,COUNT(stud_id) AS students_count,direction_name",
@@ -90,7 +90,7 @@ namespace Academy
 			LoadTab();
 		}
 
-		private void cbGroupsDirection_SelectedIndexChanged(object sender, EventArgs e)
+		private void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			int i = tabControl.SelectedIndex;
 			Query query = new Query(queries[i]);
@@ -103,7 +103,8 @@ namespace Academy
 			Dictionary<string, int> source = this.GetType().GetField(member_name).GetValue(this) as Dictionary<string,int>;
 			//Console.WriteLine(this.GetType().GetField(member_name).GetValue(this));
 			//Console.WriteLine(this.GetType());
-			query.Condition += $" AND {field_name.ToLower()} = {source[(sender as ComboBox).SelectedItem.ToString()]}";
+			if(query.Condition != "")query.Condition += " AND";
+			query.Condition += $" [{field_name.ToLower()}] = {source[(sender as ComboBox).SelectedItem.ToString()]}";
 			LoadTab(query);
 			Console.WriteLine((sender as ComboBox).Name);
 			Console.WriteLine(e);
