@@ -22,11 +22,12 @@ namespace Academy
 			AllocConsole();
 			Console.WriteLine(CONNECTION_STRING);
 		}
-		public DataTable Select(string columns, string tables, string condition = "")
+		public DataTable Select(string columns, string tables, string condition = "", string group_by = "")
 		{
-			DataTable table=null;
+			DataTable table = null;
 			string cmd = $"SELECT {columns} FROM {tables}";
 			if (condition != "") cmd += $" WHERE {condition}";
+			if (group_by != "") cmd += $" GROUP BY {group_by}";
 
 			SqlCommand command = new SqlCommand(cmd, connection);
 			connection.Open();
@@ -45,8 +46,8 @@ namespace Academy
 				while (reader.Read())
 				{
 					//4) Создаем строку:
-					DataRow row = table.NewRow();	//Строка создается через нашу таблицу, поскольку у нее должен быть нужный набор полей
-					//5) Загружаем данные в строку:
+					DataRow row = table.NewRow();   //Строка создается через нашу таблицу, поскольку у нее должен быть нужный набор полей
+													//5) Загружаем данные в строку:
 					for (int i = 0; i < reader.FieldCount; i++)
 						row[i] = reader[i];
 					//6) Добавляем строку в таблицу:

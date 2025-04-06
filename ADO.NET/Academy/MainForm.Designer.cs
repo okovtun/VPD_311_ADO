@@ -138,11 +138,13 @@
 			// 
 			// dgvStudents
 			// 
+			this.dgvStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.dgvStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvStudents.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.dgvStudents.Location = new System.Drawing.Point(3, 46);
+			this.dgvStudents.Location = new System.Drawing.Point(6, 46);
 			this.dgvStudents.Name = "dgvStudents";
-			this.dgvStudents.Size = new System.Drawing.Size(786, 353);
+			this.dgvStudents.Size = new System.Drawing.Size(778, 353);
 			this.dgvStudents.TabIndex = 0;
 			// 
 			// dgvGroups
