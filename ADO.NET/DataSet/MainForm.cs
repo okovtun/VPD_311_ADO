@@ -27,16 +27,19 @@ namespace AcademyDataSet
 			AllocConsole();
 			Console.WriteLine(CONNECTION_STRING);
 			//1) Создаем DataSet:
-			set = new DataSet();
-			AddTable("Directions","direction_id,direction_name");
+			set = new DataSet("GroupsRelatedData");
+			AddTable("Directions", "direction_id,direction_name");
 			AddTable("Groups", "group_id,group_name,direction");
 			AddRelation("GroupsDirections", "Groups,direction", "Directions,direction_id");
-			PrintGroups();
+			//PrintGroups();
+			Print("Groups");
 			//LoadGroupsRelatedData();
+			Console.WriteLine(HasParents("Directions"));
+			Console.WriteLine(HasParents("Groups"));
 		}
 		public void AddTable(string table, string columns)
 		{
-			
+
 			//	2.1) Добавляем таблицу в DataSet:
 			set.Tables.Add(table);
 
@@ -79,7 +82,7 @@ namespace AcademyDataSet
 			set.Tables[dsTable_Directions].Columns.Add(dst_col_direction_id, typeof(byte));
 			set.Tables[dsTable_Directions].Columns.Add(dst_col_direction_name, typeof(string));
 			//	2.3) Определяем, какое поле будет первичным ключем:
-			set.Tables[dsTable_Directions].PrimaryKey = 
+			set.Tables[dsTable_Directions].PrimaryKey =
 				new DataColumn[] { set.Tables[dsTable_Directions].Columns[dst_col_direction_id] };
 
 			const string dsTable_Groups = "Groups";
@@ -97,7 +100,7 @@ namespace AcademyDataSet
 			set.Relations.Add
 				(
 					"GroupsDirections",
-					set.Tables[dsTable_Directions].Columns[dst_col_direction_id],		//Parent field - первичный ключ в другой таблице
+					set.Tables[dsTable_Directions].Columns[dst_col_direction_id],       //Parent field - первичный ключ в другой таблице
 					set.Tables[dsTable_Groups].Columns[dst_Groups_col_group_direction]//Child field - внешний ключ
 				);
 
@@ -113,24 +116,104 @@ namespace AcademyDataSet
 			Print("Directions");
 			Print("Groups");
 		}
+		//public void Print(string table)
+		//{
+		//	Console.WriteLine(table);
+		//	Console.WriteLine("\n======================================================\n");
+		//	for (int i = 0; i < set.Tables[table].Columns.Count; i++)
+		//		Console.Write(set.Tables[table].Columns[i].Caption + "\t");
+		//	Console.WriteLine("\n------------------------------------------------------\n");
+		//	int number_of_parens = set.Tables[table].ParentRelations.Count;
+		//	for (int i = 0; i < number_of_parens; i++)
+		//	{
+		//		Console.WriteLine(set.Tables[table].ParentRelations[i].ToString());
+		//	}
+		//	Console.WriteLine(set.Tables[table].ParentRelations.Contains("GroupsDirections"));
+		//	for (int i = 0; i < set.Tables[table].Rows.Count; i++)
+		//	{
+		//		//Console.Write(GroupsRelatedData.Tables[table].Rows[i]+":\t");
+		//		for (int j = 0; j < set.Tables[table].Columns.Count; j++)
+		//		{
+
+		//			if (
+		//				HasParents(table) &&
+		//				set.Tables[table].ParentRelations[0].ChildColumns.Contains(set.Tables[table].Columns[j])
+		//				)
+		//			{
+		//				string parent_relation_name = !HasParents(table) ? "" :
+		//					$"{set.Tables[table].TableName}{set.Tables[table].Columns[j].ColumnName}s";
+		//				Console.WriteLine
+		//					(
+		//					//set.Tables[table].ParentRelations[0].ParentColumns[$"{set.Tables[table].Columns[j].ColumnName}_name"]
+		//					set.Tables[table].Rows[i].
+		//					GetParentRow(parent_relation_name)[$"{set.Tables[table].Columns[j].ColumnName}_name"]
+		//					);
+		//			}
+		//			#region MyRegion
+		//			//string parent_relation_name = !HasParents(table) ? "" :
+		//			//	$"{set.Tables[table].TableName}{set.Tables[table].Columns[j].ColumnName}s";
+		//			//if (set.Tables[table].ParentRelations.Contains(parent_relation_name) && )
+		//			//	Console.WriteLine
+		//			//		(
+		//			//		set.
+		//			//		Tables[table].
+		//			//		Rows[i].
+		//			//		GetParentRow(parent_relation_name)[$"{set.Tables[table].Columns[i].ColumnName}_name"]
+		//			//		);
+		//			//	else 
+		//			#endregion
+		//			else
+		//				Console.Write(set.Tables[table].Rows[i][j] + "\t\t");
+		//		}
+		//		Console.WriteLine();
+		//	}
+		//	Console.WriteLine("\n======================================================\n");
+		//}
 		public void Print(string table)
 		{
 			Console.WriteLine(table);
-			Console.WriteLine("\n======================================================\n");
+			Console.WriteLine("\n====================================================\n");
 			for (int i = 0; i < set.Tables[table].Columns.Count; i++)
-				Console.Write(set.Tables[table].Columns[i].Caption + "\t");
-			Console.WriteLine("\n------------------------------------------------------\n");
-
+			{
+				Console.Write(set.Tables[table].Columns[i].Caption + "\t\t");
+			}
+			Console.WriteLine("\n------------------------------------------------\n");
+			int number_of_parents = set.Tables[table].ParentRelations.Count;
+			for (int i = 0; i < number_of_parents; i++)
+			{
+				Console.WriteLine(set.Tables[table].ParentRelations[i].ToString());
+			}
+			Console.WriteLine(set.Tables[table].ParentRelations.Contains("GroupsDirections"));
 			for (int i = 0; i < set.Tables[table].Rows.Count; i++)
 			{
-				//Console.Write(GroupsRelatedData.Tables[table].Rows[i]+":\t");
+				//Console.Write(GroupsRelatedData.Tables[table].Rows[i] + ":\t");
 				for (int j = 0; j < set.Tables[table].Columns.Count; j++)
 				{
-					Console.Write(set.Tables[table].Rows[i][j] + "\t\t");
+					//string parent_relation_name = !HasParents(table) ? "" :
+					//	$"{set.Tables[table].TableName}{set.Tables[table].Columns[j].ColumnName}s";
+					//
+					//if (set.Tables[table].ParentRelations.Contains(parent_relation_name) &&)
+					//	Console.WriteLine(set.Tables[table].Rows[i].GetParentRow(parent_relation_name)[$"{set.Tables[table].Columns[i].ColumnName}_name"]);
+					//else
+					if (HasParents(table) && set.Tables[table].ParentRelations[0].ChildColumns.Contains(set.Tables[table].Columns[j]))
+					{
+
+						string parent_relation_name = !HasParents(table) ? "" : $"{set.Tables[table].TableName}{set.Tables[table].Columns[j].ColumnName}s";
+						Console.WriteLine
+							(//set.Tables[table].ParentRelations[0].ParentColumns[$"{set.Tables[table].Columns[j].ColumnName}_name"]
+								set.Tables[table].Rows[i].GetParentRow(parent_relation_name)[$"{set.Tables[table].Columns[j].ColumnName}_name"]
+							 );
+					}
+					else
+						Console.Write(set.Tables[table].Rows[i][j] + "\t");
 				}
 				Console.WriteLine();
 			}
-			Console.WriteLine("\n======================================================\n");
+			Console.WriteLine("\n====================================================\n");
+		}
+		bool HasParents(string table)
+		{
+			return set.Tables[table].ParentRelations.Count > 0;
 		}
 		void PrintGroups()
 		{
